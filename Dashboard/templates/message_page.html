@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Message Board</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/message_board.css' %}">
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a href="{% url 'dashboard' %}"><img src="/static/images/logo.png" width="100" height="100"
+                class="d-inline-block align-top" alt="" loading="lazy"></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'dashboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/vroom/message_board/">Message Board</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Mapping System</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'map_dashboard'  %}">Map</a>
+                        <a class="dropdown-item" href="{% url 'junkyard'  %}">Junk Yards</a>
+                        
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Members Area</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'user_profile' user.id %}">My Profile</a>
+                        <a class="dropdown-item" href="{% url 'research' %}">Research Chassis</a>
+                        <a class="dropdown-item" href="#">Media(under construction)</a>
+                        <a class="dropdown-item" href="#">Shop(under construction)</a>
+                        <a class="dropdown-item" href="#">Extra(under construction)</a>
+                    </div>
+                </li>
+        </div>
+            <span id="user">Welcome {{ user.username }}! <a class="btn btn-outline-success" href="/logout">Log
+                    out</a></span>
+        </div>
+    </nav>
+    <div class="row">
+        <div class="col-lg-4">
+        </div>
+        <div class="col-lg-4 mt-5 mb-5">
+            <div class="card">
+                <div class="card-header">
+                    Message Details
+                </div>
+                <div class="card-body box-element">
+                   
+                    <div class="messages">
+                        <h1 class="mess_page_header">{{ posts.title }}</h1>
+                        <h3 class="mess_page_header">{{ posts.content }}</h3>
+                        <i class="fa fa-thumbs-o-up"></i><span> {{ posts.user_likes.count }} Likes</span>
+                        <p>By: <a href="/vroom/user_profile/{{posts.author.id}}">{{ posts.author.username }}</a> on
+                            {{ posts.created_at }}</p>
+                        <hr>
+                   
+                        {% for comment in posts.post_comments.all %}
+                        <p>{{comment.comment}}<br> Reply from: <a
+                                href="/vroom/user_profile/{{comment.author.id}}">{{comment.author.username}}</a>
+                            {% if comment.author.id == request.session.user_id %}
+                            <a href="/vroom/delete/{{comment.id}}"><i class="fa fa-trash btn-sm btn-danger float-right"
+                                    aria-hidden="true"></i></a>
+                            {% endif %}
+                            {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+            <aside>
+                  <div id="side" class="col-12 col-col-xl-3">
+                       <div class="row">
+                           <div class="col-12 col-sm-6 col-xl-12">
+                               <div class="card mt-5 mb-3 mb-sm-0 mb-xl-3">
+                                   <div class="card-body">
+                                       <h2 class="h4 card-title">Reply to Topic?</h2>
+                                       <form class="form_field" action="/vroom/add_comment/{{posts.id}}" method=POST>
+                                           {% csrf_token %}
+                                           <input class="comment_box" type="text" placeholder="comment here...." name='comment'>
+                                           <input class="btn-sm btn-outline-secondary" type="submit" value='submit'>
+                                       </form>
+                                   </div>
+                               </div>
+                               <div class="card-footer">
+                                   <h2 class="h4 card-title">Who liked this?</h2>
+                                           <ul class="list-noStyle mb-0">
+                                               {% for user in liked_by %}
+                                               <a href="/vroom/user_profile/{{user.id}}">{{user.username}}</a>
+                                               {% endfor %}
+                                           </ul>
+                               </div>
+                               <div class="card-body">
+                                   
+                               </div>
+                           </div>
+                       </div>
+                   </div>
+           </div>
+           </aside>
+        </div>
+    </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+    integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+</script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+    integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+</script>
+
+</html>

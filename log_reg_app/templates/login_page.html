@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Welcome to Jankuruma</title>
+</head>
+
+<body>
+    <div class="container pb-2">
+        <img src="/static/images/logo.png" alt="logo" class="logo">
+        {% if messages %}
+        {% for message in messages %}
+        {% if 'logout' in message.extra_tags %}
+        <div class="alert alert-success " role="alert">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        <div class="field">
+            {% if messages %}
+            <ul class="messages mb">
+                {% for message in messages %}
+                {% if 'log_in' in message.extra_tags %}
+                <li {% if message.tags %} class="{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endif %}
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <h2>Login</h2>
+        <form action="{% url 'login' %}" method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" class="form-control form-control-sm">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" name="password" id="password" class="form-control form-control-sm">
+            </div>
+            <button class="btn btn-danger">Log in!</button>
+        </form>
+        Not a member? <a href="{% url 'registration_page'  %}">Sign up!</a>
+        {% if messages %}
+        {% for message in messages %}
+        {% if 'signup' in message.extra_tags %}
+        <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+    </div>
+</div>
+
+
+</body>
+
+</html>

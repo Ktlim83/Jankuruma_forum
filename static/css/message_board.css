@@ -1,0 +1,38 @@
+* {
+    font-family: 'Teko', sans-serif;
+    font-size: 22px;
+}
+
+#user {
+    color: seashell;
+}
+
+body {
+	background-color: #d6d6c8;
+}
+
+.category {
+	background-color: #5a7050;
+}
+
+.forum-col{
+	width: 100%;
+	
+}
+.last-post-col{
+	min-width: 192px;
+}
+
+a {
+	color: rgb(22, 102, 53);
+}
+
+.my-custom-scrollbar {
+	position: relative;
+	height: 400px;
+	overflow: auto;
+  }
+  
+  .table-wrapper-scroll-y {
+	display: block;
+  }

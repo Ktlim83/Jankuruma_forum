@@ -1,0 +1,135 @@
+{% extends 'main_page.html' %}
+
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/research.css' %}">
+
+<div id="main">
+    <header>
+        <div class="overlay"></div>
+        <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+            <source src="/static/video/jankurumaSample.mp4" type="video/mp4">
+        </video>
+        <div class="container h-100">
+            <div class="d-flex h-100 text-center align-items-center">
+                <div class="w-100 text-white">
+                </div>
+            </div>
+        </div>
+    </header>
+    <h1 class="mt-4">Select a manufacturer below:</h1>
+    <div class="col">
+        <div class="row">
+            <div class="container mt-2">
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/Mitsubishi-logo.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in mitsubishi_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/mitsubishi" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/Mazda-logo.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in mazda_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/mazda" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/Nissan-text-logo.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in nissan_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/nissan" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="container mt-2">
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/Subaru-logo-2001.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in subaru_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/subaru" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/toyota-logo.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in toyota_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/toyota" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="face face1">
+                        <div class="content">
+                            <img
+                                src="/static/images/logos/honda-logo.png">
+                        </div>
+                    </div>
+                    <div class="face face2">
+                        <div class="content">
+                            <h4>Models:</h4>
+                            {% for car in honda_chassis %}
+                            <p><a href="/vroom/chassis_page/{{ car.id }}">{{car.model}}</a></p>
+                            {% endfor %}
+                            <a href="https://en.wikipedia.org/wiki/Honda" target="_blank">History</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

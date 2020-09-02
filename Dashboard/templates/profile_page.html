@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/profile_page.css' %}">
+    <title>Jankuruma- Profile</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{% url 'dashboard' %}">
+            <img src="/static/images/logo.png" width="100" height="100" class="d-inline-block align-top" alt=""
+                loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'dashboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/vroom/message_board/">Message Board</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Mapping System</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'map_dashboard'  %}">Map</a>
+                        <a class="dropdown-item" href="{% url 'junkyard'  %}">Junk Yards</a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Members Area</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'user_profile' user.id %}">My Profile</a>
+                        <a class="dropdown-item" href="{% url 'research' %}">Research Chassis</a>
+                        <a class="dropdown-item" href="#">Media(under construction)</a>
+                        <a class="dropdown-item" href="#">Shop(under construction)</a>
+                        <a class="dropdown-item" href="#">Extra(under construction)</a>
+                    </div>
+                </li>
+        </div>
+        {% for message in messages %}
+        {% if 'edit_approved' in message.extra_tags %}
+        <div id="welcome" class="alert alert-success mr-4" role="alert">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        <span id="user">Welcome {{ curr_user.username }}! <a class="btn btn-outline-success" href="/logout">Log
+                out</a></span>
+    </nav>
+    <!-- MAIN CONTENT  -->
+    </head>
+
+    <body>
+        <div class="bg">
+            <div class="container">
+                <div class="row my-2">
+                    <div class="col-lg-8 order-lg-2">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item">
+                                <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" data-target="#messages" data-toggle="tab" class="nav-link">Messages</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" data-target="#other_members" data-toggle="tab" class="nav-link">Other
+                                    Members</a>
+                            </li>
+                            {% if request.session.user_id == user.id %}
+                            <li class="nav-item">
+                                <a href="" data-target="#edit" data-toggle="tab" class="nav-link">Edit Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="" data-target="#edit_chassis" data-toggle="tab" class="nav-link">Edit Chassis</a>
+                            </li>
+                            {% endif  %}
+                        </ul>
+                        <div class="tab-content py-4">
+                            <div class="tab-pane active" id="profile">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <p> Full Name: {{user.first_name}} {{user.last_name}} </p>
+                                        <h6>E-mail: <a href="mailto:{{user.email}}"><i class="fa fa-envelope"></i></a></h6>
+                                        <h5 class="mb-3">Current Chassis: {{user.year}} {{user.make}} {{user.model}}
+                                        </h5>
+                                        {% if user.car_pic %}
+                                        <img class="main_car" src="{{user.car_pic}}" alt="me" style="width:100%">
+                                        {% else %}
+                                        <img src="/static/images/hitchhiker.jpg" alt="no_car" style="width:100%">
+                                        {% endif  %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <h5 class="mb-3"> My Garage:</h5>
+                                        <div class="col-md-12 table-wrapper-scroll-y my-custom-scrollbar">
+                                        {% for car in user.owns.all%}
+                                        <ul>
+                                            <li><a href="{{car.car_pic.url}}">{{car.year}} {{car.make}} {{car.model}}</a><a class="btn-sm btn-outline-danger" style="float: right;"
+                                                href="/vroom/delete_chassis/{{ car.id }}"><i class="fa fa-trash"
+                                                aria-hidden="true"></i></a></li>
+                                            </ul>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                            <div class="col-md-12">
+                                                <h5 class="mt-2"> About me:</h5>
+                                            <table class="table table-sm table-hover table-striped">
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            {%if user.bio   %}
+                                                            {{user.bio}}
+                                                            {% endif  %}
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            {% for message in messages %}
+                                            {% if 'edit_not_approved' in message.extra_tags %}
+                                            <ul>
+                                                <li id="welcome" role="alert">{{ message }}</li>
+                                            </ul>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane table-wrapper-scroll-y my-custom-scrollbar " id="messages">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <ul style="list-style: none;">
+                                                {% for post in posts %}
+                                                {% if author_id == post.author.id %}
+                                                <li>
+                                                    <p class="message_tag">
+                                                        {{ post.content }}<a href="{% url 'message_page' post.id%}"><i
+                                                                class="fa fa-envelope float-right"
+                                                                aria-hidden="true"></i></a></p>
+                                                </li>
+                                                {% else %}
+                                                {% endif %}
+                                                {% endfor %}
+                                            </ul>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class=" tab-pane" id="edit">
+                                <form action="{% url 'edit_profile' user.id %}" role="form"
+                                    enctype="multipart/form-data" method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">First
+                                            name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="first_name" id="first_name" type="text"
+                                                value="{{user.first_name}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Last
+                                            name</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="last_name" id="last_name" type="text"
+                                                value="{{user.last_name}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Email</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="email" id="email" type="email"
+                                                value="{{user.email}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Username</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="username" id="username" type="text"
+                                                value="{{user.username}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Profile
+                                            Picture</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="picture" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Bio</label>
+                                        <div class="col-lg-9">
+                                            <textarea class="form-control" name="bio" id="bio" type="text" value="test"
+                                                rows="3">tell us something about yourself.....</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="reset" class="btn btn-secondary" value="Cancel">
+                                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <div class=" tab-pane" id="edit_chassis">
+                                <form action="{% url 'edit_chassis' user.id %}" role="form" enctype="multipart/form-data"
+                                    method="post">
+                                    {% csrf_token %}
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Year</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="year" id="year" type="text"
+                                                value="{{user.year}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Make</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="make" id="make" type="text"
+                                                value="{{user.make}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Model</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="model" id="model" type="text"
+                                                value="{{user.model}}">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label">Car Picture</label>
+                                        <div class="col-lg-9">
+                                            <input class="form-control" name="car_pic" type="file">
+                                        </div>
+                                    </div>
+                                    <div class="form-group row">
+                                        <label class="col-lg-3 col-form-label form-control-label"></label>
+                                        <div class="col-lg-9">
+                                            <input type="reset" class="btn btn-secondary" value="Cancel">
+                                            <input type="submit" class="btn btn-primary" value="Save Changes">
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                            <!-- OTHER MEMBERS AREA TAB  -->
+                            <div class=" tab-pane table-wrapper-scroll-y my-custom-scrollbar" id="other_members">
+                                <table class="table table-hover table-striped">
+                                    <tbody>
+                                        <tr>
+                                            <ul style="list-style: none;">
+                                                {%for user in others%}
+                                                <li><a href="/vroom/user_profile/{{user.id}}">{{ user.username }}</a>
+                                                </li>
+                                                {%endfor%}
+                                            </ul>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- PROFILE PICTURE  -->
+                    <div class="col-lg-4 order-lg-1 text-center">
+                        {%if user.profile_pic   %}
+                        <img src="{{user.profile_pic}}" alt="me" style="width:100%">
+                        <h5 class="mb-3 mt-3">{{user.username}}</h5>
+                        {% else %}
+                        <img src="/static/images/profile_default.png" class="mx-auto img-fluid img-circle d-block"
+                            alt="avatar">
+                        {% endif  %}
+                        <hr>
+                        <div class="col-md-12">
+                            <span class="badge badge-secondary"><i class="fa fa-envelope"></i> Posts
+                                started:
+                                {{ user.posts.count }}</span>
+                            <span class="badge badge-secondary"><i class="fa fa-cog"></i> Likes given:
+                                {{ user.liked_posts.count }}</span>
+                            <span class="badge badge-secondary"><i class="fa fa-car"></i> Chassis owned:
+                                {{ user.owns.count }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/js/bootstrap.min.js"
+        integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous">
+    </script>
+
+</html>

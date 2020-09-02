@@ -1,0 +1,24 @@
+.col-12 {
+height: fit-content;
+width: 100%;
+background-color: cornsilk;
+padding-top: 5px;
+}
+
+#header_image, #sub_content_image {
+    height: fit-content;
+    width: 100%;
+}
+
+h1 {
+    font-size: 66px;
+}
+
+h2 {
+    font-size: larger;
+    color: red;
+}
+
+p {
+    font-size: larger;
+}

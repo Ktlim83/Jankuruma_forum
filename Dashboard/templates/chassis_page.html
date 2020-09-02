@@ -1,0 +1,85 @@
+{% extends 'main_page.html' %}
+
+
+{% block content %}
+
+
+{% load static %}
+<link rel="stylesheet" href="{% static '/css/chassis_page.css' %}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+<body>
+    <div class="container mb-5">
+        <div class="row profile">
+            <div class="col-md-4">
+                <div class="profile-sidebar">
+                    <div class="profile-userpic ml-2 mr-2">
+                        <img src="{{chassis.car_pic.url}}" alt="me" style="width:100%">
+                    </div>
+                    <div class="profile-usertitle">
+                        <div class="profile-usertitle-name">
+                            <h1 class="make_model_h1">{{chassis.make}} {{chassis.model}}</h1>
+                        </div>
+                    </div>
+                    <div class="profile-userbuttons">
+                        <a href="/vroom/add_chassis/{{ chassis.id }}" class="btn btn-success btn-sm">Add to garage</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8">
+                <div class="col-lg-8 order-lg-2">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item">
+                            <a href="" data-target="#profile" data-toggle="tab" class="nav-link active">Chassis Info</a>
+                        </li>
+                    </ul>
+                    <div class="tab-content py-4">
+                        <div class="tab-pane active" id="Chassis">
+                            <div class="row">
+                                <div class="col-md-12">
+                                <table class="table table-sm table-hover table-striped">
+                                    <thead>
+                                      <tr>
+                                        <th scope="col">Year</th>
+                                        <th scope="col">Make</th>
+                                        <th scope="col">Model</th>
+                                        <th scope="col">Engine</th>
+                                        <th scope="col">Horsepower</th>
+                                        <th scope="col">Drivetrain</th>
+                                      </tr>
+                                    </thead>
+                                    <tbody>
+                                      <tr>
+                                        <th scope="row">{{chassis.year}}</th>
+                                        <td>{{chassis.make}}</td>
+                                        <td>{{chassis.model}}</td>
+                                        <td>{{chassis.engine}}</td>
+                                        <td>{{chassis.hp}}</td>
+                                        <td>{{chassis.drivetrain}}</td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                                <div class="col-md-12">
+                                    <h5 class="mt-2"> Details:
+                                    </h5>
+                                    <table class="table table-sm table-hover table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <td>
+                                                    {{chassis.description}}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <hr>
+</body>
+{% endblock %}

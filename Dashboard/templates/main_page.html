@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Teko:wght@300&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/main/assets/css/main.css' %}">
+
+    <title>Jankuruma</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="{%url 'dashboard' %}">
+            <img src="/static/images/logo.png" width="100" height="100" class="d-inline-block align-top" alt=""
+                loading="lazy">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'dashboard' %}">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{%url 'about' %}">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/vroom/message_board/">Message Board</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                        Mapping System</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'map_dashboard'  %}">Map</a>
+                        <a class="dropdown-item" href="{% url 'junkyard'  %}">Junk Yards</a>
+
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Members Area</a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="{% url 'user_profile' user.id %}">My Profile</a>
+                        <a class="dropdown-item" href="{% url 'research' %}">Research Chassis</a>
+                        <a class="dropdown-item" href="#">Media(under construction)</a>
+                        <a class="dropdown-item" href="#">Shop(under construction)</a>
+                        <a class="dropdown-item" href="#">Extra(under construction)</a>
+                    </div>
+                </li>
+        </div>
+        {% for message in messages %}
+        {% if 'success' in message.extra_tags %}
+        <div id="welcome" class="alert alert-success" role="alert">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        {% for message in messages %}
+        {% if 'chassis_added' in message.extra_tags %}
+        <div id="welcome" class="alert alert-success mr-4" role="alert">{{ message }}</div>
+        {% endif %}
+        {% endfor %}
+        <span id="user"> Welcome {{ user.username }}! <a class="btn btn-outline-success" href="/logout">Log
+                out</a></span>
+    </nav>
+    {% block content %}
+    <div id="banner">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-12-medium">
+
+                    <h1>Featured Story</h1>
+                    <p>The MR2 derived from a 1976 Toyota design project with the goal of a car which would be enjoyable
+                        to drive, yet still provide good fuel economy – not necessarily a sports car.</p>
+                    <a href="{% url 'featured_story' %}" class="button-large">Read Story!</a>
+
+                </div>
+                <div class="col-6 col-12-medium imp-medium">
+
+                    <!-- Banner Image -->
+                    <a href="#" class="bordered-feature-image"><img id="banner_image" src="/static/images/mr2s.jpg"
+                            alt="" /></a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Features -->
+    <section id="features">
+        <div class="container">
+            <div class="row">
+                <div class="col-3 col-6-medium col-12-small">
+
+                    <!-- Feature #1 -->
+                    <section>
+                        <a href="{% url 'research' %}" class="bordered-feature-image"><img
+                                src="/static/images/logos.png" /></a>
+                        <h2>Research Area </h2>
+                        <p>Not sure where to begin? Then check out a few of these manufacturers and go from there.
+                        </p>
+                    </section>
+                </div>
+                <div class="col-3 col-6-medium col-12-small">
+
+                    <!-- Feature #2 -->
+                    <section>
+                        <a href="{% url 'message_board' %}" class="bordered-feature-image"><img
+                                src="/static/images/carmeet.jpg" alt="" /></a>
+                        <h2>Message Boards</h2>
+                        <p>What's going on at the moment? What is everyone up to? Stop by the message board and say
+                            "Hello!" Here is where you go to ask a question or simply talk to our other members.
+                        </p>
+                    </section>
+
+                </div>
+                <div class="col-3 col-6-medium col-12-small">
+
+                    <!-- Feature #3 -->
+                    <section>
+                        <a href="#" class="bordered-feature-image"><img src="/static/images/oilchange.jpeg"
+                                alt="" /></a>
+                        <h2>Tutorials and DIY's</h2>
+                        <p>
+                            How do I change my oil? How do I check my battery? Questions like those can be answered
+                            here. Learn by doing, with a little help from the information that could be found here.
+                        </p>
+                    </section>
+
+                </div>
+                <div class="col-3 col-6-medium col-12-small">
+
+                    <!-- Feature #4 -->
+                    <section>
+                        <a href="{% url 'map_dashboard' %}" class="bordered-feature-image"><img
+                                src="/static/images/parts.png" alt="" /></a>
+                        <h2>Mapping System</h2>
+                        <p>Where do I find parts for my car? Where are nay junk yards? Are there any meets coming up?
+                            Where are good paint shops? Where is a good place to have a car meet? Check out our mapping
+                            system for some suggestions.
+                        </p>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content -->
+    <section id="content">
+        <div class="container">
+            <div class="row aln-center">
+                <div class="col-4 col-12-medium">
+
+                    <!-- Box #1 -->
+                    <section>
+                        <header>
+                            <h2>Who We Are</h2>
+                            <h3>Starting a new project?</h3>
+                        </header>
+                        <a href="#" class="feature-image"><img src="/static/images/angry mechanic.jpg"
+                                alt="angry_guy" /></a>
+                        <p>
+
+                            If you need help finding that next project, or if you are new to working on your own
+                            vehicle. Our community is the perfect place for you to gather information and get pointed in
+                            the right direction.
+                        </p>
+                    </section>
+
+                </div>
+                <div class="col-4 col-6-medium col-12-small">
+
+                    <!-- Box #2 -->
+                    <section>
+                        <header>
+                            <h2>Car Styles?</h2>
+                            <h3>Why yes....there are many. Which one suits you?</h3>
+                        </header>
+                        <ul class="check-list">
+                            <li>OldSchool</li>
+                            <li>VIP</li>
+                            <li>Drift</li>
+                            <li>Stance</li>
+                            <li>Vanning</li>
+                            <li>JDM</li>
+                            <li>Euro</li>
+                            <li>OEM+</li>
+                            <li>Muscle</li>
+
+                        </ul>
+                    </section>
+
+                </div>
+                <div class="col-4 col-6-medium col-12-small">
+
+                    <!-- Box #3 -->
+                    <section>
+                        <header>
+                            <h2>What People Are Saying</h2>
+                            <h3>Because your voice is important to us.</h3>
+                        </header>
+                        <ul class="quote-list">
+                            {% for message in contacts %}
+                            <li>
+                                <p>"{{message.message}}"</p>
+                                <span>"{{message.name}}"</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    {% endblock %}
+    <!-- Footer -->
+    <section id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-8 col-12-medium">
+
+                    <!-- Links -->
+                    <section>
+                        <h2>Other awesome Auto sites!</h2>
+                        <div>
+                            <div class="row">
+                                <div class="col-3 col-12-small">
+                                    <ul class="link-list last-child">
+                                        <li><a href="https://carsandcoffee.com/">Cars And Coffee</a></li>
+                                        <li><a href="https://www.hoonigan.com/">Hoonigan</a></li>
+                                        <li><a href="http://www.speedhunters.com/">Speed Hunters</a></li>
+                                        <li><a href="http://www.cardomain.com/">Car Domain</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col-3 col-12-small">
+                                    <ul class="link-list last-child">
+                                        <li><a href="https://www.croooober.com/en/">Croooober</a></li>
+                                        <li><a href="www.Ebay.com">Ebay</a></li>
+                                        <li><a href="www.ejukuracing.com">Enjuku Racing</a></li>
+                                        <li><a href="www.yahooauctionsjapan.com">Yahoo Auctions</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+
+                </div>
+                <div class="col-4 col-12-medium imp-medium">
+
+                    <!-- Blurb -->
+                    <section>
+                        <img src="/static/images/logo.png" width="100" height="100" class="d-inline-block align-top"
+                            alt="" loading="lazy">
+                        <h2>Out with the new and in with the old.</h2>
+                        <p>
+                            Let's do our part by keeping these machines alive and on the road. Why buy a brand new car,
+                            when you can own a used car? No need for new raw material and its cheaper. Also, are you
+                            getting rid of a car that matches the chassis that we have above? Head to the MEssage board
+                            and post a For sale ad. Thanks for stopping by!
+                        </p>
+                    </section>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Copyright -->
+    <div id="copyright">
+        &copy; Jankurama 2020.
+    </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="{% static '/js/research.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous">
+    </script>
+    <script defer src="https://maps.googleapis.com/maps/api/js?key={{map_api}}&callback=initMap">
+    </script>
+
+
+
+</body>
+
+</html>

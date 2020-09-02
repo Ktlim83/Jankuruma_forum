@@ -1,0 +1,102 @@
+{% extends 'main_page.html' %}
+<!-- API KEY FOR MAP IS IN MAIN PAGE SCRIPT  -->
+
+
+
+{% block content %}
+{% load static %}
+    <link rel="stylesheet" href="{% static 'css/map.css' %}">
+    <div class="mt-2" id="map"></div>
+    <h1>Junk yard locations in the area.</h1>
+
+
+
+<script>
+
+
+
+    function initMap(){
+        // Map Options 
+        var options = {
+            zoom:8,
+            center:{lat:47.6062,lng:-122.3321}
+        }
+        // New Map takes in 2 parameters. Map ID and options for sizing etc.
+        var map = new google.maps.Map(document.getElementById('map'),options);
+
+        // // Add Marker / Takes in an object / and parameters. position and map:map(like dictionary context)
+        // var marker = new google.maps.Marker({
+        //     position:{lat:47.8326,lng:-122.3060},
+        //     map:map,
+        //     icon:'http://maps.google.com/mapfiles/kml/pal4/icon15.png'
+        // });
+        // // New info window with click function
+        // var infoWindow = new google.maps.InfoWindow({
+        //     content: '<h1>Pick and Pull Lynnwood</h1>'
+        // });
+
+        // marker.addListener('click',function(){
+        //     infoWindow.open(map,marker);
+        // });
+
+        // Array of markers 
+        var markers = [
+        {
+            coords:{lat:47.8326,lng:-122.3060},
+            iconImage:'http://maps.google.com/mapfiles/kml/pal4/icon15.png',
+            content: '<h1>Pick and Pull Lynnwood</h1>'
+            },
+            {coords:{lat:48.1549,lng:-122.1454},
+            iconImage:'http://maps.google.com/mapfiles/kml/pal4/icon15.png',
+            content: '<h1>Pick and Pull Arlington</h1>'    
+        },
+            {coords:{lat:46.9712201,lng:-122.890225},
+            iconImage:'http://maps.google.com/mapfiles/kml/pal4/icon15.png',
+            content: '<h1>Pick and Pull Tumwater</h1>' 
+        },
+            {coords:{lat:47.1555,lng:-122.4696},
+            iconImage:'http://maps.google.com/mapfiles/kml/pal4/icon15.png',
+            content: '<h1>Pick and Pull Lakewood</h1><a href="https://carsandcoffee.com/">Website</a>'
+        }
+        ];
+
+        // Loop thru markers 
+        for(var i = 0; i < markers.length; i++ ){
+            // adds markers 
+            addMarker(markers[i]);
+        }
+        // Add Marker Function 
+        // Parameter props is taking in parameter of coords. 
+        function addMarker(props){
+            var marker = new google.maps.Marker({
+                position:props.coords,
+                map:map,
+                // icon: props.iconImage
+            });
+            // Checks for custom icon 
+            if(props.iconImage){
+                // Set icon image 
+                marker.setIcon(props.iconImage);
+            }
+            // Checks content for infoWindow 
+            if(props.content){
+                var infoWindow = new google.maps.InfoWindow({
+                    content: props.content
+                });
+                marker.addListener('click',function(){
+                infoWindow.open(map,marker);
+                });
+
+            }
+        }
+    }
+
+
+
+
+
+
+
+
+</script>
+  {% endblock %}
